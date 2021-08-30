@@ -9,6 +9,7 @@ import folium
 from geopy import distance
 from flask import Flask
 
+
 NEAREST_COFFEE_SHOPS_COUNT = 5
 
 
@@ -57,6 +58,7 @@ def get_coffee_shops_map_with_marks(coords, dedicated_coffee_shops):
         popup="Вы находитесь здесь",
         icon=folium.Icon(icon="cloud", color="red"),
     ).add_to(coffee_shops_map)
+
     for coffee_shop in dedicated_coffee_shops:
         location_five_coffee_shops = (
             folium.Marker(
@@ -75,11 +77,11 @@ def create_coffee_shops_map():
 
 if __name__ == "__main__":
     load_dotenv()
-    YANDEX_APIKEY = os.getenv("YANDEX_API_KEY")
+    yandex_api_key = os.getenv("YANDEX_API_KEY")
     place = input("Где вы находитесь? ")
     filepath = "coffee.json"
     coffee_shops = load_coffee_shops(filepath)
-    lon, lat = fetch_coordinates(YANDEX_APIKEY, place)
+    lon, lat = fetch_coordinates(yandex_api_key, place)
     processed_coffee_shops = get_processed_coffee_shops(coffee_shops, (lat, lon))
     sorted_processed_coffee_shops = sorted(
         processed_coffee_shops, key=get_coffee_distance
